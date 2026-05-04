@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi-MIDI Video Cue Tool</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="app-container">
+      <header>
+        <h1>Multi-MIDI Video Cue Tool</h1>
+        <p>Load up to four videos and use MIDI notes to create and trigger playback cues.</p>
+        <div id="global-controls">
+          <div class="control-group">
+            <label for="midi-select">Global MIDI Input Device</label>
+            <select id="midi-select">
+                <option>No MIDI devices found</option>
+            </select>
+            <div id="midi-status" class="status-indicator" aria-live="polite">
+                Status: Disconnected
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main id="players-container">
+        <!-- Player instances will be dynamically inserted here by index.tsx -->
+      </main>
+    </div>
+
+    <template id="player-template">
+      <div class="player-instance">
+        <div class="player-header">
+          <h2 class="player-title">Player N</h2>
+          <button class="map-midi-btn" title="Activate this player for MIDI mapping and triggering">Map MIDI</button>
+        </div>
+
+        <div class="video-section">
+           <!-- The YouTube IFrame player will be inserted here by the API -->
+          <div class="youtube-player-container"></div>
+        </div>
+        <div class="controls-section">
+            <div class="control-group search-container">
+              <label class="video-url-label">YouTube Video</label>
+              <div class="input-row">
+                <input
+                  type="text"
+                  class="video-url-input"
+                  placeholder="Search YouTube or paste URL..."
+                />
+                <button class="load-video-btn">Search</button>
+              </div>
+              <div class="search-results"></div>
+            </div>
+
+            <div class="control-group">
+              <div class="toggle-control">
+                  <span class="toggle-text-label gate-mode-label">Gated Playback</span>
+                  <label class="switch">
+                      <input type="checkbox" class="gate-mode-toggle">
+                      <span class="slider round"></span>
+                  </label>
+              </div>
+              <p class="control-description">If on, video plays only while a MIDI key is held down.</p>
+            </div>
+            
+            <div class="control-group">
+              <div class="toggle-control">
+                  <span class="toggle-text-label loop-mode-label">Loop Mode</span>
+                  <label class="switch">
+                      <input type="checkbox" class="loop-mode-toggle">
+                      <span class="slider round"></span>
+                  </label>
+              </div>
+              <p class="control-description">If on, hold and release a note to set a loop region.</p>
+            </div>
+
+            <div class="control-group loop-status-group">
+                <label>Loop Points</label>
+                <div class="loop-display">
+                   <div class="loop-time-container loop-start-container" title="Click to edit time">
+                        <span class="loop-time-label">Start:</span>
+                        <span class="loop-time-value loop-start-display">--:--.---</span>
+                        <input type="text" class="loop-time-input loop-start-input" style="display: none;">
+                    </div>
+                    <div class="loop-time-container loop-end-container" title="Click to edit time">
+                        <span class="loop-time-label">End:</span>
+                        <span class="loop-time-value loop-end-display">--:--.---</span>
+                        <input type="text" class="loop-time-input loop-end-input" style="display: none;">
+                    </div>
+                </div>
+                <button class="text-btn clear-loop-btn">Clear Loop</button>
+            </div>
+
+            <div class="cue-points-section">
+                <h2>Cue Points</h2>
+                <div class="cue-list-container">
+                    <ul class="cue-list">
+                        <!-- Cue points will be dynamically inserted here -->
+                        <li class="placeholder">Activate and press a MIDI note to create a cue point.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </div>
+    </template>
+    
+    <!-- The YouTube IFrame API script. This must be before the main app script. -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script type="module" src="index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
